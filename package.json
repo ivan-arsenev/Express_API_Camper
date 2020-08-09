@@ -2,10 +2,17 @@
   "name": "bootcamp_api_rest",
   "version": "1.0.0",
   "description": "Backend API ",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "build": "babel src --out-dir dist",
+    "test": "NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent",
+    "test-routes": "yarn test -t router",
+    "test-models": "yarn test -t model",
+    "test-controllers": "yarn test -t controllers",
+    "test-auth": "yarn test -t Authentication:",
+    "dev": "nodemon --exec yarn restart",
+    "restart": "rimraf dist && yarn build && yarn start",
+    "start": "node dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -15,7 +22,16 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "cuid": "^2.1.4",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.3.13",
+    "morgan": "^1.9.1",
+    "validator": "^10.9.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -44,5 +60,15 @@
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
     "supertest": "^4.0.2"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "<rootDir>/test-db-setup.js",
+    "testPathIgnorePatterns": [
+      "dist/"
+    ],
+    "restoreMocks": true
   }
 }
